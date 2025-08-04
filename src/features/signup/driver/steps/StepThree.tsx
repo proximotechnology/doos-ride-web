@@ -74,11 +74,11 @@ export default function StepThreeForm({ onContinue, onBack }: TProps) {
                     accept="image/*"
                     onChange={(e) => field.onChange(e.target.files?.[0])}
                     className="hidden"
-                    id="licensePic"
+                    id="carPic"
                   />
                 </FormControl>
                 <label
-                  htmlFor="licensePic"
+                  htmlFor="carPic"
                   className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer border"
                 >
                   <UploadIcon className="w-6 h-6 text-gray-500" />

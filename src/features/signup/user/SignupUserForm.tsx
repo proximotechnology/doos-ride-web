@@ -1,33 +1,33 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/language-context";
-import { stepOneSchemaBuilder } from "../schema/stepOne.schema";
+import { signupUserSchemaBuilder } from "./schemas/signupUser.schema";
 
-type TProps = {
-  onContinue: () => void;
-};
-
-export default function StepOneForm({ onContinue }: TProps) {
+export default function SignupUserForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const { t } = useLanguage();
-  const StepOneSchema = stepOneSchemaBuilder(t);
-  type StepOneFormValues = z.infer<typeof StepOneSchema>;
+  const signUpUserSchema = signupUserSchemaBuilder(t);
+  type SignUpFormValues = z.infer<typeof signUpUserSchema>;
+  const navigate = useNavigate();
 
-  const form = useForm<StepOneFormValues>({
-    resolver: zodResolver(StepOneSchema),
+
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpUserSchema),
     defaultValues: {
       username: "",
       phone: "",
@@ -37,13 +37,17 @@ export default function StepOneForm({ onContinue }: TProps) {
     },
   });
 
-  const onSubmit = (data: StepOneFormValues) => {
-    onContinue();
+  const onSubmit = (data: SignUpFormValues) => {
+    console.log("Form Data", data);
+    // Submit logic here
+    navigate("/user/auth/phone-otp");
   };
 
   return (
-    <div className="max-w-md w-full space-y-6 p-4">
-      <h1 className="text-2xl font-semibold text-center">Sign Up</h1>
+    <div className="max-w-md w-full mx-auto p-6 space-y-6">
+      <h1 className="text-2xl font-semibold text-center">
+        {t("signupUser.header")}
+      </h1>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -52,10 +56,10 @@ export default function StepOneForm({ onContinue }: TProps) {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("signup.stepOne.username.label")}</FormLabel>
+                <FormLabel>{t("signupUser.username.label")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={t("signup.stepOne.username.placeholder")}
+                    placeholder={t("signupUser.username.placeholder")}
                     className="rounded-full"
                     {...field}
                   />
@@ -64,15 +68,16 @@ export default function StepOneForm({ onContinue }: TProps) {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("signup.stepOne.phone.label")}</FormLabel>
+                <FormLabel>{t("signupUser.phone.label")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={t("signup.stepOne.phone.placeholder")}
+                    placeholder={t("signupUser.phone.placeholder")}
                     className="rounded-full"
                     {...field}
                   />
@@ -81,16 +86,18 @@ export default function StepOneForm({ onContinue }: TProps) {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("signup.stepOne.email.label")}</FormLabel>
+                <FormLabel>{t("signupUser.email.label")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={t("signup.stepOne.email.placeholder")}
+                    placeholder={t("signupUser.email.placeholder")}
                     className="rounded-full"
+                    type="email"
                     {...field}
                   />
                 </FormControl>
@@ -98,19 +105,33 @@ export default function StepOneForm({ onContinue }: TProps) {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("signup.stepOne.password.label")}</FormLabel>
+                <FormLabel>{t("signupUser.password.label")}</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder={t("signup.stepOne.password.placeholder")}
-                    type="password"
-                    className="rounded-full"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      placeholder={t("signupUser.password.placeholder")}
+                      type={showPassword ? "text" : "password"}
+                      className="rounded-full pr-10"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="w-5 h-5 text-gray-500" />
+                      ) : (
+                        <Eye className="w-5 h-5 text-gray-500" />
+                      )}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,10 +147,14 @@ export default function StepOneForm({ onContinue }: TProps) {
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
+                    id="agreeToTerms"
                   />
                 </FormControl>
-                <FormLabel className="text-sm font-normal">
-                  {t("signup.stepOne.terms.label")}
+                <FormLabel
+                  htmlFor="agreeToTerms"
+                  className="text-sm font-normal"
+                >
+                  {t("signupUser.terms")}
                 </FormLabel>
                 <FormMessage />
               </FormItem>
@@ -138,16 +163,17 @@ export default function StepOneForm({ onContinue }: TProps) {
 
           <Button
             type="submit"
-            className="w-full rounded-full text-white bg-gray-700 hover:bg-gray-800"
+            className="w-full rounded-full bg-gray-700 hover:bg-gray-800 text-white"
           >
-            {t("signup.stepOne.continueButton")}
+            {t("signupUser.submit")}
           </Button>
-          <div className="text-center text-sm">
-            {t("signup.stepOne.haveAccount")}{" "}
-            <a href="/auth/signin" className="underline font-medium">
-              {t("signup.stepOne.login")}
-            </a>
-          </div>
+
+          <p className="text-sm text-center">
+            {t("signupUser.haveAccount")}
+            <Link to="/auth/login" className="font-medium underline">
+              {t("signupUser.login")}
+            </Link>
+          </p>
         </form>
       </Form>
     </div>

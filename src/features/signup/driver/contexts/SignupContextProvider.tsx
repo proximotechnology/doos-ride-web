@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { SignupContext } from "./signup.context";
 
-const maxSteps = 5;
+const maxSteps = 4;
 
 interface SignupProviderProps {
   children: ReactNode;
@@ -23,12 +23,22 @@ const SignupProvider = ({ children }: SignupProviderProps) => {
     setStep((prev) => prev - 1);
   };
 
+  const startOtp = () => {
+    setStep(-1);
+  };
+
+  const finishOtp = () => {
+    setStep(2);
+  };
+
   return (
     <SignupContext.Provider
       value={{
         step,
         next: nextStep,
         prev: prevStep,
+        startOtp,
+        finishOtp,
       }}
     >
       {children}
