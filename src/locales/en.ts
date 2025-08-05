@@ -228,14 +228,15 @@ export const en = {
     success: "Password reset link has been sent to your email",
     error: "Something went wrong",
   },
-  accountOtp : {
-    header : "OTP Verification",
-    text : "Verify your Account",
-    text_2 : "We sent you 6-digit OTP Verification Code to {{identifier}}",
-    resend : "Resend Code",
-    submit : "Verify",
-    error : "Invalid OTP",
-    success : "OTP Verified Successfully"
+  accountOtp: {
+    header: "OTP Verification",
+    text: "Verify your Account",
+    text_2: "We sent you 6-digit OTP Verification Code to {{identifier}}",
+    resend: "Resend Code",
+    submit: "Verify",
+    error: "Invalid OTP",
+    success: "OTP Verified Successfully",
+    identifierBackup: "Your Email or Phone Number",
   },
   resetPassword: {
     header: "Create New Password",
@@ -253,6 +254,39 @@ export const en = {
     },
     submit: "Reset Password",
     success: "Password has been reset successfully",
+  },
+  settings: {
+    header: "Profile Settings",
+    profile: "Profile",
+    paymentMethod: "Payment Method",
+    history: "History",
+    promoCodes: "Promo Codes and Vouchers",
+    liveSupport: "Live Support",
+    about: "About",
+    logOut: "Log Out",
+  },
+  profile: {
+    header: "Edit Your Profile",
+    profilePic: {
+      label: "Add profile pic (optional)",
+    },
+    name: {
+      label: "Name",
+      placeholder: "Enter your name",
+      error: "Name is required",
+    },
+    email: {
+      label: "Email",
+      placeholder: "Enter your email",
+      error: "Enter a valid email",
+    },
+    country: {
+      label: "Country",
+      placeholder: "Enter your country",
+      error: "Country is required",
+    },
+    submitButton: "Save Changes",
+    changePassword: "Change password",
   },
 };
 

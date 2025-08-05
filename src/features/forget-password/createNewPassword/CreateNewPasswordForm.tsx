@@ -14,7 +14,11 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 import { createNewPasswordSchemaBuilder } from "../schemas/createNewPassword.schema";
 
-export default function CreateNewPasswordForm() {
+type TProps = {
+  onSubmit?: (data: any) => void;
+};
+
+export default function CreateNewPasswordForm(props : TProps) {
   const { t } = useLanguage();
   const schema = createNewPasswordSchemaBuilder(t);
   type CreatePasswordValues = z.infer<typeof schema>;
@@ -30,6 +34,8 @@ export default function CreateNewPasswordForm() {
   const onSubmit = (data: CreatePasswordValues) => {
     console.log("Password changed:", data);
     // TODO: send to backend
+    props.onSubmit?.(data);
+    form.reset();
   };
 
   return (

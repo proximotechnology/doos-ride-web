@@ -5,7 +5,13 @@ import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function AccountOtpForm() {
+type TProps = {
+  onSubmit?: (code: string) => void;
+  onResend?: () => void;
+  identifier?: string;
+};
+
+function AccountOtpForm({ identifier, onSubmit, onResend }: TProps) {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
   const { t, dir } = useLanguage();
@@ -32,12 +38,19 @@ function AccountOtpForm() {
     e.preventDefault();
     const code = otp.join("");
     console.log("Submitted OTP:", code);
-    navigate("/auth/reset-password");
     // Add your submit logic here
+    onSubmit?.(code);
+    // Optionally clear the OTP after submission
+    setOtp(["", "", "", ""]);
+    inputsRef.current.forEach((input) => input?.blur()); // Remove focus from inputs
   };
 
   const handleResend = () => {
     console.log("Resend code logic here");
+    onResend?.();
+    // Optionally clear the OTP after resend
+    setOtp(["", "", "", ""]);
+    inputsRef.current.forEach((input) => input?.blur()); // Remove focus from inputs
   };
 
   return (
@@ -48,7 +61,11 @@ function AccountOtpForm() {
 
       <div className="text-center text-sm space-y-1">
         <p className="font-medium">{t("accountOtp.text")}</p>
-        <p className="text-muted-foreground">{t("accountOtp.text_2")}</p>
+        <p className="text-muted-foreground">
+          {t("accountOtp.text_2", {
+            identifier: identifier || t("accountOtp.identifierBackup"),
+          })}
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">

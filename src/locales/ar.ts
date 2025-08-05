@@ -238,6 +238,7 @@ export const ar: TranslationLangKeys = {
     submit: "تحقق",
     error: "غير صحيح OTP",
     success: "OTP تحقق بنجاح",
+    identifierBackup: "البريد الالكتروني او رقم الهاتف",
   },
   resetPassword: {
     header: "اعادة تعيين كلمة المرور",
@@ -255,5 +256,39 @@ export const ar: TranslationLangKeys = {
     },
     submit: "اعادة تعيين",
     success: "تم اعادة تعيين كلمة المرور بنجاح",
+  },
+
+  settings: {
+    header: "الإعدادات الشخصية",
+    profile: "الملف الشخصي",
+    paymentMethod: "طريقة الدفع",
+    about: "عن التطبيق",
+    history: "السجل",
+    promoCodes: "رموز ترويجية وقسائم",
+    liveSupport: "الدعم الفني",
+    logOut: "تسجيل الخروج",
+  },
+  profile: {
+    header: "تعديل الملف الشخصي",
+    name: {
+      label: "الاسم",
+      placeholder: "ادخل الاسم",
+      error: "الاسم مطلوب",
+    },
+    profilePic: {
+      label: "اضافة صورة شخصية (اختياري)",
+    },
+    changePassword: "تغيير كلمة المرور",
+    submitButton: "حفظ التغييرات",
+    email: {
+      label: "البريد الالكتروني",
+      placeholder: "ادخل البريد الالكتروني",
+      error: "ادخل بريد الكتروني صحيح",
+    },
+    country: {
+      label: "الدولة",
+      placeholder: "ادخل الدولة",
+      error: "الدولة مطلوبة",
+    },
   },
 };
